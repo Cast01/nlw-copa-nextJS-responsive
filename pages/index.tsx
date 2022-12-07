@@ -15,6 +15,8 @@ import { useAuth } from '../hooks/useAuth';
 
 import { useGoogleLogin } from '@react-oauth/google';
 
+import jwt_decode from "jwt-decode";
+
 interface HomeProps {
   roomQuantity: number;
   userQuantity: number;
@@ -23,18 +25,24 @@ interface HomeProps {
 
 
 export default function Home(props: HomeProps) {
+  const [decodedJWT, setDecodedJWT] = useState<string>();
 
   const login = useGoogleLogin({
     onSuccess: tokenResponse => {
       api.post("/user", {
         access_token: tokenResponse.access_token,
       })
-      .then(data => console.log(data))
+      .then(data => {
+        const JWTDecoded: any = jwt_decode(data.data.tokenJWT);
+        setDecodedJWT(JWTDecoded);
+      })
       .catch(err =>  console.log(err));
 
       console.log(tokenResponse.access_token);
     },
   });
+
+  console.log(decodedJWT);
 
   /*
     const testConst = function teste() {
@@ -82,7 +90,7 @@ export default function Home(props: HomeProps) {
 
     <>
     {
-      user.name ? (
+      decodedJWT ? (
         <div className="min-h-screen bg-[#121214] relative flex justify-center items-center text-white">
           <Image 
             src={bg} 
