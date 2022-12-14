@@ -22,8 +22,9 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const [roomTitle, setRoomTitle] = useState("");
 
-  const { login, tokenJWT } = useAuth();
-  console.log(tokenJWT);
+  const { login, user, tokenJWT } = useAuth();
+  console.log("TESTEEEEEE" + user);
+  console.log("TESTEEEEEE" + tokenJWT);
 
   const createRoom = async (e: FormEvent) => {
     try {
@@ -88,7 +89,7 @@ export default function Home(props: HomeProps) {
             </div>
             <form onSubmit={createRoom}>
               {
-                props.nlwcopaToken ? (
+                tokenJWT ? (
                   <></>
                 ) : (
                   <span className='text-[#DB4437] mb-6'>Faça login com a sua conta do google para liberar seu acesso.</span>
@@ -103,7 +104,7 @@ export default function Home(props: HomeProps) {
                   onChange={e => setRoomTitle(e.target.value)}
                 />
                 {
-                  props.nlwcopaToken ? (
+                  tokenJWT ? (
                     <button
                       type={"submit"}
                       className="bg-[#F7DD43] text-black font-bold px-4 rounded"
