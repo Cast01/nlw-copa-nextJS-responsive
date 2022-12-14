@@ -5,7 +5,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontSize: {
+        "clamp1rem3vw2.7rem": "clamp(1rem, 3vw, 2.7rem)"
+      }
+    },
   },
   plugins: [],
 }

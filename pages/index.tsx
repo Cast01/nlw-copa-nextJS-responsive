@@ -10,6 +10,7 @@ import googleLogoSVG from '../assets/images/GoogleLogo.svg';
 import { api } from '../lib/axios';
 import { useAuth } from '../hooks/useAuth';
 import { parseCookies } from 'nookies';
+import { Header } from '../components/Header';
 
 interface HomeProps {
   roomQuantity: number,
@@ -22,9 +23,7 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const [roomTitle, setRoomTitle] = useState("");
 
-  const { login, user, tokenJWT } = useAuth();
-  console.log("TESTEEEEEE" + user);
-  console.log("TESTEEEEEE" + tokenJWT);
+  const { login} = useAuth();
 
   const createRoom = async (e: FormEvent) => {
     try {
@@ -60,14 +59,15 @@ export default function Home(props: HomeProps) {
         alt={'Plano de fundo'}
         className="absolute bg-no-repeat bg-cover max-h-screen w-screen top-0 left-0"
       />
-      <div className="min-h-[640px] my-[40px] max-w-7xl w-screen z-50 flex flex-col relative px-4 pb-4">
+      <div className="min-h-[640px] my-[40px] max-w-7xl w-screen z-50 flex flex-col relative pb-4">
 
 
+        <Header />
 
 
-        <div className="flex pt-4">
-          <div className="w-[60%] h-full pr-4 flex flex-col gap-[40px]">
-            <strong className="text-clamp18px-4vw-40px">
+        <div className="flex pt-4 px-4">
+          <div className="w-[60%] pr-4 flex flex-col gap-[40px]">
+            <strong className="text-clamp1rem3vw2.7rem">
               Crie seu próprio bolão da copa e compartilhe entre amigos!
             </strong>
             <div className="flex items-center">
@@ -89,7 +89,7 @@ export default function Home(props: HomeProps) {
             </div>
             <form onSubmit={createRoom}>
               {
-                tokenJWT ? (
+                props.nlwcopaToken ? (
                   <></>
                 ) : (
                   <span className='text-[#DB4437] mb-6'>Faça login com a sua conta do google para liberar seu acesso.</span>
@@ -104,7 +104,7 @@ export default function Home(props: HomeProps) {
                   onChange={e => setRoomTitle(e.target.value)}
                 />
                 {
-                  tokenJWT ? (
+                  props.nlwcopaToken ? (
                     <button
                       type={"submit"}
                       className="bg-[#F7DD43] text-black font-bold px-4 rounded"
@@ -127,7 +127,7 @@ export default function Home(props: HomeProps) {
               Após criar seu bolão, você receberá um código único que poderá usar para convidar outras pessoas 🚀
             </p>
             <div id="horizontalSeparator" className="w-[100%] h-[2px] bg-[#323238] mx-auto" />
-            <div className="w-full flex">
+            <div className="w-full flex gap-12">
               <div className="w-calc50%-1px">
                 <div className="flex">
                   <Image
@@ -160,7 +160,7 @@ export default function Home(props: HomeProps) {
 
 
 
-          <div className="w-[40%] h-full flex justify-center items-center">
+          <div className="w-[40%] flex justify-center items-center">
             <Image
               src={cellPhones}
               alt={"2 cellphones with nlw copa application"}

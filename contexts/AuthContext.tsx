@@ -56,7 +56,7 @@ export function AuthContextProvider(props: AuthContextProviderType) {
                                 maxAge: 30 * 24 * 60 * 60,
                                 path: '/',
                             });
-                            const {nlwMyProfileData} = parseCookies();
+                            const { nlwMyProfileData } = parseCookies();
                             setUser(nlwMyProfileData);
                         })
                         .catch(err => console.log(err));
