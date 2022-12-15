@@ -2,49 +2,38 @@ import { OverridableTokenClientConfig, useGoogleLogin } from "@react-oauth/googl
 import Router from "next/router";
 import { parseCookies, setCookie } from "nookies";
 import { stringify } from "querystring";
-import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import { api } from "../lib/axios";
+import Cookies from 'js-cookie'
 
 interface AuthContextType {
-    tokenJWT: string,
-    setTokenJWT: Dispatch<SetStateAction<string>>,
-    user: any,
-    setUser: Dispatch<SetStateAction<any>>,
     login: (overrideConfig?: OverridableTokenClientConfig | undefined) => void,
 }
 
 export const AuthContext = createContext({} as AuthContextType);
-
-interface UserType {
-    avatarUrl: string,
-    name: string,
-    sub: string,
-}
 
 interface AuthContextProviderType {
     children: ReactNode,
 }
 
 export function AuthContextProvider(props: AuthContextProviderType) {
-    const { nlwcopaToken, nlwMyProfileData } = parseCookies();
-    const [tokenJWT, setTokenJWT] = useState(nlwcopaToken);
-    const [user, setUser] = useState<UserType | string>(nlwMyProfileData);
-
     const login = useGoogleLogin({
         onSuccess: tokenResponse => {
             api.post("/user", {
                 access_token: tokenResponse.access_token,
             })
                 .then(data => {
-                    // Set
-                    setCookie(null, 'nlwcopaToken', data.data.tokenJWT, {
-                        maxAge: 30 * 24 * 60 * 60,
-                        path: '/',
-                        //httpOnly: true, // Só salava no cookie de paginas https
-                        // O token JWT sempre será salvo com o httpOnly como true, apenas em testes que o deixamos false; 
+                    Cookies.set("nlwcopaToken", data.data.tokenJWT, {
+                        expires: 7,
+                        path: "/",
                     });
-                    const { nlwcopaToken } = parseCookies();
-                    setTokenJWT(nlwcopaToken);
+                    // Set
+                    // setCookie(null, 'nlwcopaToken', data.data.tokenJWT, {
+                    //     maxAge: 30 * 24 * 60 * 60,
+                    //     path: '/',
+                    //     //httpOnly: true, // Só salava no cookie de paginas https
+                    //     // O token JWT sempre será salvo com o httpOnly como true, apenas em testes que o deixamos false; 
+                    // });
 
                     api.get("/me", {
                         headers: {
@@ -52,26 +41,20 @@ export function AuthContextProvider(props: AuthContextProviderType) {
                         }
                     })
                         .then(data => {
-                            setCookie(null, 'nlwMyProfileData', JSON.stringify(data.data.user), {
-                                maxAge: 30 * 24 * 60 * 60,
-                                path: '/',
-                            });
-                            const { nlwMyProfileData } = parseCookies();
-                            setUser(nlwMyProfileData);
+                            Cookies.set("nlwMyProfileData", JSON.stringify(data.data.user), {
+                                expires: 7,
+                                path: "/"
+                            })
                         })
                         .catch(err => console.log(err));
 
-                    Router.push("/");
+                    Router.reload();
                 })
                 .catch(err => alert(err));
         },
     });
 
     const obj = {
-        tokenJWT,
-        setTokenJWT,
-        user,
-        setUser,
         login,
     }
 

@@ -23,14 +23,18 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const [roomTitle, setRoomTitle] = useState("");
 
-  const { login} = useAuth();
+  const { login } = useAuth();
 
   const createRoom = async (e: FormEvent) => {
     try {
       e.preventDefault();
 
       const response = await api.post('/room', {
-        roomTitle
+        title: roomTitle,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${props.nlwcopaToken}`
+        }
       });
 
       const { code } = response.data;
@@ -38,7 +42,7 @@ export default function Home(props: HomeProps) {
       // Armazena o código no ctrl+c do usuário.
       navigator.clipboard.writeText(code);
 
-      setRoomTitle("");
+      setRoomTitle(""); 
 
       window.alert("Sala criada com sucesso! Código copiado!");
     } catch (error) {
@@ -46,11 +50,6 @@ export default function Home(props: HomeProps) {
     }
 
   }
-
-  // useEffect(() => {
-  //   const { nlwcopaToken } = parseCookies();
-  //   setTokenJWT(nlwcopaToken);
-  // }, []);
 
   return (
     <div className="min-h-screen bg-[#121214] relative flex justify-center items-center text-white">
@@ -112,13 +111,12 @@ export default function Home(props: HomeProps) {
                       CRIAR MEU BOLÃO
                     </button>
                   ) : (
-                    <button
-                      type={"submit"}
-                      className="bg-[#DB4437] text-black font-bold rounded px-11"
+                    <div
+                      className="bg-[#DB4437] text-black font-bold rounded px-11 flex items-center justify-center cursor-pointer"
                       onClick={() => login()}
                     >
-                      <Image src={googleLogoSVG} alt={""} />
-                    </button>
+                      <Image src={googleLogoSVG} alt={""} width={30} height={30} />
+                    </div>
                   )
                 }
               </div>
@@ -183,7 +181,7 @@ export default function Home(props: HomeProps) {
 // vem do Banco de Dados e se chamar a rota no componente em si os robos não esperam os dados chegar 
 // para liberar o site para os buscadores.
 export async function getServerSideProps(ctx: any) {
-  const {nlwcopaToken} = parseCookies(ctx);
+  const { nlwcopaToken } = parseCookies(ctx);
 
   const [
     roomQuantity,
