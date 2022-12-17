@@ -7,6 +7,7 @@ import { api } from "../lib/axios";
 import { toast, Toaster } from 'react-hot-toast'
 import Image from "next/image";
 import Router from "next/router";
+import { Console } from "console";
 
 interface MyProfilePropsType {
     roomsIIn: {
@@ -34,26 +35,26 @@ export default function MyProfile(props: MyProfilePropsType) {
     const searchRoom = async (e: FormEvent) => {
         e.preventDefault();
 
-        const response = await api.post("/room/join", {
+        api.post("/room/join", {
             code: codeInput,
         }, {
             headers: {
                 'Authorization': `Bearer ${props.nlwcopaToken}`
             }
         })
-            .then(data => {
-                console.log(data.data.roomId)
-                Router.push(`http://localhost:3000/room/${data.data.roomId}`);
-            })
-            .catch(err => toast.error(err.response.data.message));
+        .then(data => {
+            console.log(data.data.roomId)
+            Router.push(`http://localhost:3000/room/${data.data.roomId}`);
+        })
+        .catch(err => console.log(err.response.data.message));
     }
 
     return (
         <div className="min-h-[640px] my-[40px] max-w-7xl w-screen z-50 flex flex-col relative pb-4 mx-auto text-white">
 
             <Toaster
-            position="top-center"
-            reverseOrder={false}
+                position="top-center"
+                reverseOrder={false}
             />
 
 
