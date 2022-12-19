@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
-import { useForm } from "react-hook-form";
 import { GameCard } from "../../components/GameCard";
-import { Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
+import { Header } from "../../components/Header";
 
 
 interface RoomPropsType {
@@ -35,6 +34,12 @@ interface RoomPropsType {
 }
 
 export default function Room(props: RoomPropsType) {
+    function copyToClipBoard(code: string) {
+        navigator.clipboard.writeText(code);
+        toast.success("Código copiado!");
+    }
+
+
     return (
         <div className="min-h-[640px] my-[40px] max-w-7xl w-screen z-50 flex flex-col relative pb-4 mx-auto text-white">
 
@@ -45,10 +50,24 @@ export default function Room(props: RoomPropsType) {
             />
 
 
-            <div className="flex justify-between items-center">
+
+            <Header />
+
+
+
+
+            <div className="flex justify-between items-center pt-8">
                 <div>
-                    <h1 className="text-6xl font-black">Sala do{"(a): "}{props.roomIIn.title}</h1>
-                    <h2 className="text-2xl">Código{": "}{props.roomIIn.code}</h2>
+                    <h1 className="text-6xl font-black mb-7">Sala do{"(a): "}{props.roomIIn.title}</h1>
+                    <h2 
+                        className="text-2xl">Código{": "}
+                        <span 
+                            className="text-blue-500 underline cursor-pointer" 
+                            onClick={() => copyToClipBoard(props.roomIIn.code)}
+                        >
+                            {props.roomIIn.code}
+                        </span>
+                    </h2>
                 </div>
                 <ul className="flex">
                     {
@@ -81,6 +100,15 @@ export async function getServerSideProps(ctx: any) {
     const { nlwcopaToken } = parseCookies(ctx);
     const roomId = ctx.query.room;
 
+    if (!nlwcopaToken) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            }
+        }
+    }
+
     const gameResponse = await api.get(`/room/${roomId}/games`, {
         headers: {
             'Authorization': `Bearer ${nlwcopaToken}`
@@ -96,7 +124,6 @@ export async function getServerSideProps(ctx: any) {
     });
 
     const roomIIn = roomResponse.data;
-    const roomIIn2 = roomResponse.data.Participant;
 
     console.log(allGamesInThisRoom);
 

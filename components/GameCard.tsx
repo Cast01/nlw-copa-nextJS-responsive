@@ -7,6 +7,9 @@ import { api } from "../lib/axios";
 import { toast, Toaster } from "react-hot-toast";
 import { Check } from "phosphor-react";
 
+import getUnicodeFlagIcon from 'country-flag-icons/unicode'
+const { getName } = require('country-list');
+
 const schema = yup.object({
   firstTeamPoints: yup.number().positive().integer().max(15).min(0),
   secondTeamPoints: yup.number().positive().integer().max(15).min(0),
@@ -33,6 +36,7 @@ export function GameCard(props: GuessCardPropsType) {
     const { register, handleSubmit, formState: {errors} } = useForm({
         resolver: yupResolver(schema)
     });
+
     const onSubmit = (data: any) => {
         console.log(data.firstTeamPoints)
         console.log(props.gameId)
@@ -53,10 +57,13 @@ export function GameCard(props: GuessCardPropsType) {
         .catch(err => toast.error(err.response.data.message));
     };
 
-
     return (
         <form key={props.gameId} className="flex flex-col gap-4 items-center p-4 w-[270px] bg-[#202024] h-fit" onSubmit={handleSubmit(onSubmit)}>
-            <div>{props.guess.firstTeamCountryCode} vs {props.guess.secondTeamCountryCode}</div>
+            <div className="w-full text-center bg-[rgba(0,0,0,0.3)] py-3 font-black rounded">
+                <div className="truncate">{getName(props.guess.firstTeamCountryCode)}</div>
+                <div>vs</div>
+                <div className="truncate">{getName(props.guess.secondTeamCountryCode)}</div>
+            </div>
             <div>
                 {
                     new Date(props.guess.date).toLocaleString('pt-BR', {
@@ -70,7 +77,7 @@ export function GameCard(props: GuessCardPropsType) {
             </div>
             <div className="w-full flex flex-col items-center gap-2">
                 {
-                    // INVALID
+                    // DATE INVALID
                     new Date(props.guess.date) < new Date() && (
                         <div className="w-full flex justify-between">
                             <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
@@ -83,9 +90,9 @@ export function GameCard(props: GuessCardPropsType) {
                                     })
                                 }
                             </select>
-                            <span>{props.guess.firstTeamCountryCode}</span>
+                            <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
                             <span>{" X "}</span>
-                            <span>{props.guess.secondTeamCountryCode}</span>
+                            <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
                             <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
                                 <option selected value="0">0</option>
                                 {
@@ -100,10 +107,10 @@ export function GameCard(props: GuessCardPropsType) {
                     )
                 }
                 {
-                    // VALID WITH OUT Guess
+                    // DATE VALID AND GUESS.GUESS NOT EXIST
                     new Date(props.guess.date) > new Date() && !props.guess.Guess &&  (
                         <div className="w-full flex justify-between">
-                            <select disabled={block ? true : false} className="bg-[#171718]" {...register("firstTeamPoints")}>
+                            <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("firstTeamPoints")}>
                                 <option selected value="0">0</option>
                                 {
                                     Array.from({length: 15}).map((_, i) => {
@@ -113,10 +120,10 @@ export function GameCard(props: GuessCardPropsType) {
                                     })
                                 }
                             </select>
-                            <span>{props.guess.firstTeamCountryCode}</span>
+                            <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
                             <span>{" X "}</span>
-                            <span>{props.guess.secondTeamCountryCode}</span>
-                            <select disabled={block ? true : false} className="bg-[#171718]" {...register("secondTeamPoints")}>
+                            <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
+                            <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("secondTeamPoints")}>
                                 <option selected value="0">0</option>
                                 {
                                     Array.from({length: 15}).map((_, i) => {
@@ -130,20 +137,27 @@ export function GameCard(props: GuessCardPropsType) {
                     )
                 }
                 {
+                    // GUESS.GUESS EXIST
                     props.guess.Guess && (
                         <div className="w-full flex justify-between">
                             <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
                                 <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.firstTeamPoints}</option>
                             </select>
-                            <span>{props.guess.firstTeamCountryCode}</span>
+                            <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
                             <span>{" X "}</span>
-                            <span>{props.guess.secondTeamCountryCode}</span>
+                            <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
                             <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
                                 <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.secondTeamPoints}</option>
                             </select>
                         </div>
                     )
                 }
+
+
+
+
+
+                {/* BUTTONS */}
                 {
                     new Date(props.guess.date) < new Date() && (
                         <button disabled type="submit" className="bg-[#505954] py-2 w-full cursor-not-allowed font-black h-[48px]">JOGO FINALIZADO</button>
@@ -151,7 +165,13 @@ export function GameCard(props: GuessCardPropsType) {
                 }
                 {
                     new Date(props.guess.date) > new Date() && !props.guess.Guess && (
-                        <button type="submit" className="bg-[#047C3F] py-2 w-full hover:bg-[#026232] font-black h-[48px]">ENVIAR</button>
+                        <button disabled={block ? true : false} type="submit" className={`bg-[#047C3F] py-2 w-full font-black h-[48px] flex items-center justify-center ${block ? "cursor-not-allowed bg-[#3c42b6]" : "hover:bg-[#026232]"}`}>
+                            {block ? (
+                                <Check size={32} weight="bold" />
+                            ) : (
+                                <span>ENVIAR</span>
+                            )}
+                        </button>
                     )
                 }
                 {
