@@ -7,7 +7,10 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'github.com',
     ],
-  }
+  },
+  env: {
+    GOOGLE_ID: process.env.GOOGLE_ID,
+  },
 }
 
 module.exports = nextConfig

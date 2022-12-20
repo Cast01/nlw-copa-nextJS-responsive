@@ -63,9 +63,10 @@ export default function MyProfile(props: MyProfilePropsType) {
 
 
             <div className="flex flex-col gap-8 flex-1 px-4 pt-8">
+                
                 <h1 className="font-black text-6xl">Participações</h1>
 
-
+                {/* Code submit */}
                 <form onSubmit={searchRoom} className="h-10 self-end">
                     <input
                         type="text"
@@ -77,6 +78,7 @@ export default function MyProfile(props: MyProfilePropsType) {
                     <button type="submit" className="bg-[#F7DD43] h-full px-7 rounded-tr-md rounded-br-md text-black hover:bg-[#d6bf3b]">Buscar sala</button>
                 </form>
 
+                {/* My guesses and goup ranking */}
                 <div className="flex flex-col flex-1">
                     <div className="bg-[rgba(255,255,255,0.2)] w-full flex justify-center gap-11 py-4 px-9 rounded-tl-2xl rounded-tr-2xl">
                         <button 
@@ -100,7 +102,7 @@ export default function MyProfile(props: MyProfilePropsType) {
                                         return (
                                             <MyGuesses key={room.id} room={room}/>
                                         );
-                                    })
+                                    })  
                                 }
                             </div>
                         )
@@ -113,6 +115,7 @@ export default function MyProfile(props: MyProfilePropsType) {
                         )
                     }
                 </div>
+
             </div>
 
         </div>
