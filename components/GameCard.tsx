@@ -45,10 +45,6 @@ export function GameCard(props: GuessCardPropsType) {
         api.post(`/room/${props.roomId}/games/${props.gameId}/guesses`, {
             firstTeamPoints: data.firstTeamPoints,
             secondTeamPoints: data.secondTeamPoints,
-        }, {
-            headers: {
-                'Authorization': `Bearer ${props.nlwcopaToken}`
-            }
         })
         .then(data => {
             toast.success(data.data.message);

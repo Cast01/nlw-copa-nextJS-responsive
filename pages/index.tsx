@@ -31,10 +31,6 @@ export default function Home(props: HomeProps) {
 
 			const response = await api.post('/room', {
 				title: roomTitle,
-			}, {
-				headers: {
-					'Authorization': `Bearer ${props.nlwcopaToken}`
-				}
 			});
 
 			const { code } = response.data;

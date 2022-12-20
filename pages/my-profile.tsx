@@ -38,10 +38,6 @@ export default function MyProfile(props: MyProfilePropsType) {
 
         api.post("/room/join", {
             code: codeInput,
-        }, {
-            headers: {
-                'Authorization': `Bearer ${props.nlwcopaToken}`
-            }
         })
         .then(data => {
             console.log(data.data.roomId)
