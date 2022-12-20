@@ -78,9 +78,13 @@ export default function Room(props: RoomPropsType) {
                             );
                         })
                     }
-                    <div className="rounded-[50%] relative -left-2 bg-[#2e2e30] border-[#202024] border-solid border-[3px] w-[37px] h-[37px] flex items-center justify-center text-sm">
-                        <span>+{JSON.stringify(props.roomIIn._count.Participant)}</span>
+                    {
+                        props.roomIIn._count.Participant > 4 && (
+                            <div className="rounded-[50%] relative -left-2 bg-[#2e2e30] border-[#202024] border-solid border-[3px] w-[37px] h-[37px] flex items-center justify-center text-sm">
+                            <span>+{JSON.stringify(props.roomIIn._count.Participant)}</span>
                     </div>
+                        )
+                    }
                 </ul>
             </div>
             <div className="w-full h-[1px] bg-slate-500 my-7" />
