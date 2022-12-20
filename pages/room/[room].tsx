@@ -4,6 +4,7 @@ import { api } from "../../lib/axios";
 import { GameCard } from "../../components/GameCard";
 import { toast, Toaster } from "react-hot-toast";
 import { Header } from "../../components/Header";
+import { PaginatedItems } from "../../components/room/Pagination";
 
 
 interface RoomPropsType {
@@ -57,13 +58,13 @@ export default function Room(props: RoomPropsType) {
 
 
 
-            <div className="flex justify-between items-center pt-8">
+            <section className="flex justify-between items-center pt-8">
                 <div>
                     <h1 className="text-6xl font-black mb-7">Sala do{"(a): "}{props.roomIIn.title}</h1>
-                    <h2 
+                    <h2
                         className="text-2xl">Código{": "}
-                        <span 
-                            className="text-blue-500 underline cursor-pointer" 
+                        <span
+                            className="text-blue-500 underline cursor-pointer"
                             onClick={() => copyToClipBoard(props.roomIIn.code)}
                         >
                             {props.roomIIn.code}
@@ -78,20 +79,29 @@ export default function Room(props: RoomPropsType) {
                             );
                         })
                     }
-                    <div className="rounded-[50%] relative -left-2 bg-[#2e2e30] border-[#202024] border-solid border-[3px] w-[37px] h-[37px] flex items-center justify-center text-sm">
-                        <span>+{JSON.stringify(props.roomIIn._count.Participant)}</span>
-                    </div>
+                    {
+                        props.roomIIn._count.Participant > 4 && (
+                            <div className="rounded-[50%] relative -left-2 bg-[#2e2e30] border-[#202024] border-solid border-[3px] w-[37px] h-[37px] flex items-center justify-center text-sm">
+                                <span>+{JSON.stringify(props.roomIIn._count.Participant)}</span>
+                            </div>
+                        )
+                    }
                 </ul>
-            </div>
+            </section>
             <div className="w-full h-[1px] bg-slate-500 my-7" />
             <div className="flex-1 flex flex-wrap overflow-auto max-h[600px] justify-center gap-8">
-                {
+
+                {/* Sem paginação */}
+                {/* {
                     props.allGamesInThisRoom.map(guess => {
                         return (
                             <GameCard key={guess.id} guess={guess} gameId={guess.id} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
                         );
                     })
-                }
+                } */}
+
+                {/* Com paginação */}
+                <PaginatedItems itemsPerPage={3} allGamesInThisRoom={props.allGamesInThisRoom} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
             </div>
         </div>
     );
