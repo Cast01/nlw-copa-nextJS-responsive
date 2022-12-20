@@ -21,6 +21,7 @@ interface RoomPropsType {
         title: string,
         code: string,
         Participant: {
+            id: string,
             user: {
                 avatarUrl: string,
             }
@@ -73,7 +74,7 @@ export default function Room(props: RoomPropsType) {
                     {
                         props.roomIIn.Participant.map(participant => {
                             return (
-                                <Image src={participant.user.avatarUrl} alt={""} className={`rounded-[50%] w-[37px] h-[37px] relative -left-3 border-[#202024] border-solid border-[3px]`} width={37} height={37} />
+                                <Image key={participant.id} src={participant.user.avatarUrl} alt={""} className={`rounded-[50%] w-[37px] h-[37px] relative -left-3 border-[#202024] border-solid border-[3px]`} width={37} height={37} />
                             );
                         })
                     }
@@ -87,7 +88,7 @@ export default function Room(props: RoomPropsType) {
                 {
                     props.allGamesInThisRoom.map(guess => {
                         return (
-                            <GameCard guess={guess} gameId={guess.id} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
+                            <GameCard key={guess.id} guess={guess} gameId={guess.id} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
                         );
                     })
                 }

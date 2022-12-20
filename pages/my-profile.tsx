@@ -98,7 +98,7 @@ export default function MyProfile(props: MyProfilePropsType) {
                                 {
                                     props.roomsIIn.map(room => {
                                         return (
-                                            <MyGuesses room={room}/>
+                                            <MyGuesses key={room.id} room={room}/>
                                         );
                                     })
                                 }

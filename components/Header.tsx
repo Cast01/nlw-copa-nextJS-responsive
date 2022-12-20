@@ -1,28 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { parseCookies } from 'nookies';
-import { parse } from 'path';
-import { useEffect, useState } from 'react';
 import nlwCopaLogo from '../assets/images/logo.svg';
-
-interface nlwMyProfileData {
-    name: string,
-    avatarUrl: string,
-    sub: string,
-}
+import defaultProfileImage from '../assets/images/defaultImage.jpg';
+import { useAuth } from '../hooks/useAuth';
 
 export function Header(props: any) {
-    const [ nlwMyProfileData, setNlwMyProfileData ] = useState<nlwMyProfileData>();
-    console.log(nlwMyProfileData);
-
-    useEffect(() => {
-        const {nlwMyProfileData} = parseCookies();
-
-        if (nlwMyProfileData) {
-            const parse = JSON.parse(nlwMyProfileData);
-            setNlwMyProfileData(parse);
-        }
-    }, []);
+    const {user} = useAuth();
 
     return (
         <header className='w-full h-16 bg-slate-500 flex items-center justify-between px-4'>
@@ -31,7 +14,7 @@ export function Header(props: any) {
                 <Link href={"/"}>CRIAR SALA</Link>
                 <Link href={"/my-profile"}>
                     <Image 
-                        src={nlwMyProfileData ? nlwMyProfileData.avatarUrl  : ""}
+                        src={user ? user.avatarUrl  : defaultProfileImage}
                         alt={""} 
                         width={50} 
                         height={50}

@@ -81,11 +81,11 @@ export function GameCard(props: GuessCardPropsType) {
                     new Date(props.guess.date) < new Date() && (
                         <div className="w-full flex justify-between">
                             <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
-                                <option selected value="0">0</option>
+                                <option defaultValue={0} value="0">0</option>
                                 {
                                     Array.from({length: 15}).map((_, i) => {
                                         return (
-                                            <option value={i+1}>{i+1}</option>
+                                            <option key={i} value={i+1}>{i+1}</option>
                                         );
                                     })
                                 }
@@ -94,11 +94,11 @@ export function GameCard(props: GuessCardPropsType) {
                             <span>{" X "}</span>
                             <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
                             <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
-                                <option selected value="0">0</option>
+                                <option defaultValue={0} value="0">0</option>
                                 {
                                     Array.from({length: 15}).map((_, i) => {
                                         return (
-                                            <option value={i+1}>{i+1}</option>
+                                            <option key={i} value={i+1}>{i+1}</option>
                                         );
                                     })
                                 }
@@ -111,11 +111,11 @@ export function GameCard(props: GuessCardPropsType) {
                     new Date(props.guess.date) > new Date() && !props.guess.Guess &&  (
                         <div className="w-full flex justify-between">
                             <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("firstTeamPoints")}>
-                                <option selected value="0">0</option>
+                                <option defaultValue={0} value="0">0</option>
                                 {
                                     Array.from({length: 15}).map((_, i) => {
                                         return (
-                                            <option value={i+1}>{i+1}</option>
+                                            <option key={i} value={i+1}>{i+1}</option>
                                         );
                                     })
                                 }
@@ -124,11 +124,11 @@ export function GameCard(props: GuessCardPropsType) {
                             <span>{" X "}</span>
                             <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
                             <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("secondTeamPoints")}>
-                                <option selected value="0">0</option>
+                                <option defaultValue={0} value="0">0</option>
                                 {
                                     Array.from({length: 15}).map((_, i) => {
                                         return (
-                                            <option value={i+1}>{i+1}</option>
+                                            <option key={i} value={i+1}>{i+1}</option>
                                         );
                                     })
                                 }

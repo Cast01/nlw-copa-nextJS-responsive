@@ -37,7 +37,7 @@ export function MyGuesses(props: MyGuessesPropsType) {
                         {
                             props.room.Participant.map((participant, i) => {
                                 return (
-                                    <Image src={participant.user.avatarUrl} alt={""} className={`rounded-[50%] relative -left-3 border-[#202024] border-solid border-[3px]`} width={37} height={37} />
+                                    <Image key={participant.id} src={participant.user.avatarUrl} alt={""} className={`rounded-[50%] relative -left-3 border-[#202024] border-solid border-[3px]`} width={37} height={37} />
                                 );
                             })
                         }
