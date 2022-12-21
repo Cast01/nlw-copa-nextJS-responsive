@@ -2,14 +2,14 @@ import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 import { Check } from 'phosphor-react';
 import { useForm } from 'react-hook-form';
 
-import { TeamCountryCodeType } from './NoGuess';
+import { TeamCountryCodeType } from './ValidDateGuessNoExist';
 
 interface TeamPoints {
     firstTeamPoints: number,
     secondTeamPoints: number,
 }
 
-export function MyGuess(props: TeamCountryCodeType & TeamPoints) {
+export function OldDateGuessExist(props: TeamCountryCodeType & TeamPoints) {
     const { register, formState: { errors } } = useForm();
 
     return (
@@ -25,7 +25,7 @@ export function MyGuess(props: TeamCountryCodeType & TeamPoints) {
                     <option selected value={props.secondTeamPoints}>{props.secondTeamPoints}</option>
                 </select>
             </div>
-            <button disabled type="submit" className="bg-[#3c42b6] py-2 w-full cursor-not-allowed flex items-center justify-center h-[48px]"><Check size={32} weight="bold" /></button>
+            <button disabled type="submit" className="bg-[#3c42b6] py-2 w-full cursor-not-allowed flex items-center justify-center h-[48px]"><Check size={32} weight="bold"/></button>
         </>
     );
 }

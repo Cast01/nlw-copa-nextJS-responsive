@@ -2,9 +2,9 @@ import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 import { Check } from 'phosphor-react';
 import { useForm } from 'react-hook-form';
 
-import { TeamCountryCodeType } from './NoGuess';
+import { TeamCountryCodeType } from './ValidDateGuessNoExist';
 
-export function OldGame(props: TeamCountryCodeType) {
+export function OldGameNotGuess(props: TeamCountryCodeType) {
     const { register, formState: { errors } } = useForm();
 
     return (
@@ -13,9 +13,9 @@ export function OldGame(props: TeamCountryCodeType) {
                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
                     <option defaultValue={0} value="0">0</option>
                     {
-                        Array.from({ length: 15 }).map((_, i) => {
+                        Array.from({length: 15}).map((_, i) => {
                             return (
-                                <option key={i} value={i + 1}>{i + 1}</option>
+                                <option key={i} value={i+1}>{i+1}</option>
                             );
                         })
                     }
@@ -26,9 +26,9 @@ export function OldGame(props: TeamCountryCodeType) {
                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
                     <option defaultValue={0} value="0">0</option>
                     {
-                        Array.from({ length: 15 }).map((_, i) => {
+                        Array.from({length: 15}).map((_, i) => {
                             return (
-                                <option key={i} value={i + 1}>{i + 1}</option>
+                                <option key={i} value={i+1}>{i+1}</option>
                             );
                         })
                     }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { GameCard } from '../room/GameCard';
+import { GameCard } from './game-card/GameCard';
 
 interface ItemsPropsType {
     currentItems: {

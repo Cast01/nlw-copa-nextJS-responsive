@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { parseCookies } from "nookies";
 import { api } from "../../lib/axios";
-import { GameCard } from "../../components/room/GameCard";
+import { GameCard } from "../../components/room/game-card/GameCard";
 import { toast, Toaster } from "react-hot-toast";
 import { Header } from "../../components/Header";
 
