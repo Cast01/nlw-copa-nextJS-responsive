@@ -74,7 +74,7 @@ export default function MyProfile(props: MyProfilePropsType) {
                     <button type="submit" className="bg-[#F7DD43] h-full px-7 rounded-tr-md rounded-br-md text-black hover:bg-[#d6bf3b]">Buscar sala</button>
                 </form>
 
-                {/* My guesses and goup ranking */}
+                {/* My guesses and group ranking */}
                 <div className="flex flex-col flex-1">
                     <div className="bg-[rgba(255,255,255,0.2)] w-full flex justify-center gap-11 py-4 px-9 rounded-tl-2xl rounded-tr-2xl">
                         <button 
