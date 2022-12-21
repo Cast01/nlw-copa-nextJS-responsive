@@ -4,10 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { api } from "../../lib/axios";
-import { toast, Toaster } from "react-hot-toast";
-import { Check } from "phosphor-react";
-
-import getUnicodeFlagIcon from 'country-flag-icons/unicode'
+import { toast } from "react-hot-toast";
 import { NoGuess } from "./NoGuess";
 import { OldGame } from "./OldGame";
 import { MyGuess } from "./MyGuess";
@@ -62,7 +59,7 @@ export function GameCard(props: GameCardPropsType) {
         <form key={props.gameId} className="flex flex-col gap-4 items-center p-4 w-[270px] bg-[#202024] h-fit" onSubmit={handleSubmit(() => onSubmit)}>
             <div className="w-full text-center bg-[rgba(0,0,0,0.3)] py-3 font-black rounded">
                 <div className="truncate">{getName(props.guess.firstTeamCountryCode)}</div>
-                <div>vs</div>
+                <div>X</div>
                 <div className="truncate">{getName(props.guess.secondTeamCountryCode)}</div>
             </div>
             <div>

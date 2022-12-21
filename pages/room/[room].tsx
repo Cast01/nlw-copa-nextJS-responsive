@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { parseCookies } from "nookies";
 import { api } from "../../lib/axios";
-import { GameCard } from "../../components/GameCard";
+import { GameCard } from "../../components/room/GameCard";
 import { toast, Toaster } from "react-hot-toast";
 import { Header } from "../../components/Header";
-import { PaginatedItems } from "../../components/room/Pagination";
 
 
 interface RoomPropsType {
@@ -92,16 +91,16 @@ export default function Room(props: RoomPropsType) {
             <div className="flex-1 flex flex-wrap overflow-auto max-h[600px] justify-center gap-8">
 
                 {/* Sem paginação */}
-                {/* {
+                {
                     props.allGamesInThisRoom.map(guess => {
                         return (
                             <GameCard key={guess.id} guess={guess} gameId={guess.id} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
                         );
                     })
-                } */}
+                }
 
                 {/* Com paginação */}
-                <PaginatedItems itemsPerPage={3} allGamesInThisRoom={props.allGamesInThisRoom} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
+                {/* <PaginatedItems itemsPerPage={3} allGamesInThisRoom={props.allGamesInThisRoom} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} /> */}
             </div>
         </div>
     );
