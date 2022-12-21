@@ -8,6 +8,9 @@ import { toast, Toaster } from "react-hot-toast";
 import { Check } from "phosphor-react";
 
 import getUnicodeFlagIcon from 'country-flag-icons/unicode'
+import { NoGuess } from "./NoGuess";
+import { OldGame } from "./OldGame";
+import { MyGuess } from "./MyGuess";
 const { getName } = require('country-list');
 
 const schema = yup.object({
@@ -77,92 +80,19 @@ export function GameCard(props: GameCardPropsType) {
                 {
                     // OLD GAME
                     new Date(props.guess.date) < new Date() && (
-                        <>
-                            <div className="w-full flex justify-between">
-                                <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
-                                    <option defaultValue={0} value="0">0</option>
-                                    {
-                                        Array.from({ length: 15 }).map((_, i) => {
-                                            return (
-                                                <option key={i} value={i + 1}>{i + 1}</option>
-                                            );
-                                        })
-                                    }
-                                </select>
-                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
-                                <span>{" X "}</span>
-                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
-                                <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
-                                    <option defaultValue={0} value="0">0</option>
-                                    {
-                                        Array.from({ length: 15 }).map((_, i) => {
-                                            return (
-                                                <option key={i} value={i + 1}>{i + 1}</option>
-                                            );
-                                        })
-                                    }
-                                </select>
-                            </div>
-                            <button disabled type="submit" className="bg-[#505954] py-2 w-full cursor-not-allowed font-black h-[48px]">JOGO FINALIZADO</button>
-                        </>
+                        <OldGame firstTeamCountryCode={props.guess.firstTeamCountryCode} secondTeamCountryCode={props.guess.secondTeamCountryCode} />
                     )
                 }
                 {
                     // DATE VALID AND MY GUESS DOES NOT EXIST
                     new Date(props.guess.date) > new Date() && !props.guess.Guess && (
-                        <>
-                            <div className="w-full flex justify-between">
-                                <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("firstTeamPoints")}>
-                                    <option defaultValue={0} value="0">0</option>
-                                    {
-                                        Array.from({ length: 15 }).map((_, i) => {
-                                            return (
-                                                <option key={i} value={i + 1}>{i + 1}</option>
-                                            );
-                                        })
-                                    }
-                                </select>
-                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
-                                <span>{" X "}</span>
-                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
-                                <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("secondTeamPoints")}>
-                                    <option defaultValue={0} value="0">0</option>
-                                    {
-                                        Array.from({ length: 15 }).map((_, i) => {
-                                            return (
-                                                <option key={i} value={i + 1}>{i + 1}</option>
-                                            );
-                                        })
-                                    }
-                                </select>
-                            </div>
-                            <button disabled={block ? true : false} type="submit" className={`bg-[#047C3F] py-2 w-full font-black h-[48px] flex items-center justify-center ${block ? "cursor-not-allowed bg-[#3c42b6]" : "hover:bg-[#026232]"}`}>
-                            {block ? (
-                                <Check size={32} weight="bold" />
-                            ) : (
-                                <span>ENVIAR</span>
-                            )}
-                        </button>
-                        </>
+                        <NoGuess firstTeamCountryCode={props.guess.firstTeamCountryCode} secondTeamCountryCode={props.guess.secondTeamCountryCode} block={block} />
                     )
                 }
                 {
-                    // MY GUESS EXIST
-                    props.guess.Guess && (
-                        <>
-                            <div className="w-full flex justify-between">
-                                <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
-                                    <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.firstTeamPoints}</option>
-                                </select>
-                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
-                                <span>{" X "}</span>
-                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
-                                <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
-                                    <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.secondTeamPoints}</option>
-                                </select>
-                            </div>
-                            <button disabled type="submit" className="bg-[#3c42b6] py-2 w-full cursor-not-allowed flex items-center justify-center h-[48px]"><Check size={32} weight="bold" /></button>
-                        </>
+                    // DATE VALID AND MY GUESS EXIST
+                    new Date(props.guess.date) > new Date() && props.guess.Guess && (
+                        <MyGuess firstTeamCountryCode={props.guess.firstTeamCountryCode} secondTeamCountryCode={props.guess.secondTeamCountryCode} firstTeamPoints={props.guess.Guess.firstTeamPoints} secondTeamPoints={props.guess.Guess.secondTeamPoints} />
                     )
                 }
             </div>
