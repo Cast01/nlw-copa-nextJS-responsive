@@ -8,10 +8,6 @@ import { toast, Toaster } from "react-hot-toast";
 import { Check } from "phosphor-react";
 
 import getUnicodeFlagIcon from 'country-flag-icons/unicode'
-import { OldGameNotGuess } from "./OldGameNotGuess";
-import { ValidDateGuessNoExist } from "./ValidDateGuessNoExist";
-import { OldDateGuessExist } from "./OldDateGuessExist";
-import { ValidDateGuessExist } from "./ValidDateGuessExist";
 const { getName } = require('country-list');
 
 const schema = yup.object({
