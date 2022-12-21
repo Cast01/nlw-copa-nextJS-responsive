@@ -43,6 +43,7 @@ export function GameCard(props: GameCardPropsType) {
     });
 
     const onSubmit = ({ firstTeamPoints, secondTeamPoints }: inputValueType) => {
+        console.log("cheguei")
 
         api.post(`/room/${props.roomId}/games/${props.gameId}/guesses`, {
             firstTeamPoints,

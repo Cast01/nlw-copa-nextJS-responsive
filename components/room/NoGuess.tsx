@@ -42,7 +42,7 @@ export function NoGuess(props: TeamCountryCodeType) {
                 {props.block ? (
                     <Check size={32} weight="bold" />
                 ) : (
-                    <span>ENVIAR</span>
+                    "ENVIAR"
                 )}
             </button>
         </>
