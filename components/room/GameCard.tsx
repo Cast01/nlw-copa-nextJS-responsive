@@ -9,6 +9,8 @@ import { NoGuess } from "./NoGuess";
 import { OldGame } from "./OldGame";
 import { MyGuess } from "./MyGuess";
 const { getName } = require('country-list');
+import getUnicodeFlagIcon from 'country-flag-icons/unicode'
+import { Check } from "phosphor-react";
 
 const schema = yup.object({
     firstTeamPoints: yup.number().positive().integer().max(15).min(0),
@@ -84,7 +86,41 @@ export function GameCard(props: GameCardPropsType) {
                 {
                     // DATE VALID AND MY GUESS DOES NOT EXIST
                     new Date(props.guess.date) > new Date() && !props.guess.Guess && (
-                        <NoGuess firstTeamCountryCode={props.guess.firstTeamCountryCode} secondTeamCountryCode={props.guess.secondTeamCountryCode} block={block} />
+                        // <NoGuess firstTeamCountryCode={props.guess.firstTeamCountryCode} secondTeamCountryCode={props.guess.secondTeamCountryCode} block={block} />
+                        <>
+                            <div className="w-full flex justify-between">
+                                <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("firstTeamPoints")}>
+                                    <option defaultValue={0} value="0">0</option>
+                                    {
+                                        Array.from({ length: 15 }).map((_, i) => {
+                                            return (
+                                                <option key={i} value={i + 1}>{i + 1}</option>
+                                            );
+                                        })
+                                    }
+                                </select>
+                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
+                                <span>{" X "}</span>
+                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
+                                <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("secondTeamPoints")}>
+                                    <option defaultValue={0} value="0">0</option>
+                                    {
+                                        Array.from({ length: 15 }).map((_, i) => {
+                                            return (
+                                                <option key={i} value={i + 1}>{i + 1}</option>
+                                            );
+                                        })
+                                    }
+                                </select>
+                            </div>
+                            <button disabled={block ? true : false} type="submit" className={`bg-[#047C3F] py-2 w-full font-black h-[48px] flex items-center justify-center ${block ? "cursor-not-allowed bg-[#3c42b6]" : "hover:bg-[#026232]"}`}>
+                                {block ? (
+                                    <Check size={32} weight="bold" />
+                                ) : (
+                                    <span>ENVIAR</span>
+                                )}
+                            </button>
+                        </>
                     )
                 }
                 {
