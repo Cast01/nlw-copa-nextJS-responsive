@@ -56,26 +56,12 @@ export default function Home(props: HomeProps) {
 				className="absolute bg-no-repeat bg-cover max-h-screen w-screen top-0 left-0"
 			/>
 			<div className="min-h-[640px] my-[40px] max-w-7xl w-screen z-50 flex flex-col relative pb-4">
-
-
 				<Header />
-
-
 				<div className="flex pt-4 px-4">
-
-
-
 					<div className="w-[60%] pr-4 flex flex-col gap-[40px]">
-
-
-
 						<strong className="text-clamp1rem3vw2.7rem">
 							Crie seu próprio bolão da copa e compartilhe entre amigos!
 						</strong>
-
-
-
-
 						<div className="flex items-center">
 							<Image src={avatares} alt={""} className="h-13" />
 							<ul className="font-bold">
@@ -93,11 +79,6 @@ export default function Home(props: HomeProps) {
 								</li>
 							</ul>
 						</div>
-
-
-
-
-
 						<form onSubmit={createRoom}>
 							{
 								props.nlwcopaToken ? (
@@ -135,27 +116,10 @@ export default function Home(props: HomeProps) {
 								}
 							</div>
 						</form>
-
-
-
-
-
-
-
 						<p className="max-w-[500px] text-[#8D8D99]">
 							Após criar seu bolão, você receberá um código único que poderá usar para convidar outras pessoas 🚀
 						</p>
-
-
-
-
-
-
 						<div id="horizontalSeparator" className="w-[100%] h-[2px] bg-[#323238] mx-auto" />
-
-
-
-
 						{/* 
 							RoomQUantity and Guess quantity
 						*/}
@@ -188,15 +152,7 @@ export default function Home(props: HomeProps) {
 								</div>
 							</div>
 						</div>
-
-
-
-
-
 					</div>
-
-
-
 					<div className="w-[40%] flex justify-center items-center">
 						<Image
 							src={cellPhones}
@@ -204,14 +160,7 @@ export default function Home(props: HomeProps) {
 							className="max-h-full"
 						/>
 					</div>
-
-
-
-
 				</div>
-
-
-
 			</div>
 		</div>
 	)
