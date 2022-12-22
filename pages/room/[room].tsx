@@ -105,9 +105,9 @@ export default function Room(props: RoomPropsType) {
 
                 {/* Sem paginação */}
                 {
-                    props.roomIIn.currentRoom.Game.map(guess => {
+                    props.roomIIn.currentRoom.Game.map(game => {
                         return (
-                            <GameCard key={guess.id} guess={guess} gameId={guess.id} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
+                            <GameCard key={game.id} game={game} gameId={game.id} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
                         );
                     })
                 }

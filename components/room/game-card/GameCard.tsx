@@ -16,7 +16,7 @@ const schema = yup.object({
 }).required();
 
 interface GuessCardPropsType {
-    guess: {
+    game: {
         firstTeamCountryCode: string,
         secondTeamCountryCode: string,
         date: Date,
@@ -56,13 +56,13 @@ export function GameCard(props: GuessCardPropsType) {
     return (
         <form key={props.gameId} className="flex flex-col gap-4 items-center p-4 w-[270px] bg-[#202024] h-fit" onSubmit={handleSubmit(onSubmit)}>
             <div className="w-full text-center bg-[rgba(0,0,0,0.3)] py-3 font-black rounded">
-                <div className="truncate">{getName(props.guess.firstTeamCountryCode)}</div>
+                <div className="truncate">{getName(props.game.firstTeamCountryCode)}</div>
                 <div>vs</div>
-                <div className="truncate">{getName(props.guess.secondTeamCountryCode)}</div>
+                <div className="truncate">{getName(props.game.secondTeamCountryCode)}</div>
             </div>
             <div>
                 {
-                    new Date(props.guess.date).toLocaleString('pt-BR', {
+                    new Date(props.game.date).toLocaleString('pt-BR', {
                         day: 'numeric',
                         month: 'long',
                         year: 'numeric',
@@ -74,7 +74,7 @@ export function GameCard(props: GuessCardPropsType) {
             <div className="w-full flex flex-col items-center gap-2">
                 {
                     // OldDate and my guess not exist
-                    new Date(props.guess.date) < new Date() && !props.guess.Guess && (
+                    new Date(props.game.date) < new Date() && !props.game.Guess && (
                         <>
                             <div className="w-full flex justify-between">
                                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
@@ -87,9 +87,9 @@ export function GameCard(props: GuessCardPropsType) {
                                         })
                                     }
                                 </select>
-                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.firstTeamCountryCode)}</span>
                                 <span>{" X "}</span>
-                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.secondTeamCountryCode)}</span>
                                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
                                     <option defaultValue={0} value="0">0</option>
                                     {
@@ -107,7 +107,7 @@ export function GameCard(props: GuessCardPropsType) {
                 }
                 {
                     // Date valid and my guess not exist
-                    new Date(props.guess.date) > new Date() && !props.guess.Guess && (
+                    new Date(props.game.date) > new Date() && !props.game.Guess && (
                         <>
                             <div className="w-full flex justify-between">
                                 <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("firstTeamPoints")}>
@@ -120,9 +120,9 @@ export function GameCard(props: GuessCardPropsType) {
                                         })
                                     }
                                 </select>
-                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.firstTeamCountryCode)}</span>
                                 <span>{" X "}</span>
-                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.secondTeamCountryCode)}</span>
                                 <select disabled={block ? true : false} className={`bg-[#171718] ${block ? "cursor-not-allowed" : ""}`} {...register("secondTeamPoints")}>
                                     <option defaultValue={0} value="0">0</option>
                                     {
@@ -149,17 +149,17 @@ export function GameCard(props: GuessCardPropsType) {
                 }
                 {
                     // Old date and my guess exist
-                    new Date(props.guess.date) < new Date() && props.guess.Guess && (
+                    new Date(props.game.date) < new Date() && props.game.Guess && (
                         <>
                             <div className="w-full flex justify-between">
                                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
-                                    <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.firstTeamPoints}</option>
+                                    <option selected value={props.game.Guess.secondTeamPoints}>{props.game.Guess.firstTeamPoints}</option>
                                 </select>
-                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.firstTeamCountryCode)}</span>
                                 <span>{" X "}</span>
-                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.secondTeamCountryCode)}</span>
                                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
-                                    <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.secondTeamPoints}</option>
+                                    <option selected value={props.game.Guess.secondTeamPoints}>{props.game.Guess.secondTeamPoints}</option>
                                 </select>
                             </div>
                             <button disabled type="submit" className="bg-[#3c42b6] py-2 w-full cursor-not-allowed flex items-center justify-center h-[48px]"><Check size={32} weight="bold" /></button>
@@ -168,17 +168,17 @@ export function GameCard(props: GuessCardPropsType) {
                 }
                 {
                     // Valid date and my guess exist
-                    new Date(props.guess.date) > new Date() && props.guess.Guess && (
+                    new Date(props.game.date) > new Date() && props.game.Guess && (
                         <>
                             <div className="w-full flex justify-between">
                                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("firstTeamPoints")}>
-                                    <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.firstTeamPoints}</option>
+                                    <option selected value={props.game.Guess.secondTeamPoints}>{props.game.Guess.firstTeamPoints}</option>
                                 </select>
-                                <span>{getUnicodeFlagIcon(props.guess.firstTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.firstTeamCountryCode)}</span>
                                 <span>{" X "}</span>
-                                <span>{getUnicodeFlagIcon(props.guess.secondTeamCountryCode)}</span>
+                                <span>{getUnicodeFlagIcon(props.game.secondTeamCountryCode)}</span>
                                 <select disabled className="bg-[#171718] cursor-not-allowed" {...register("secondTeamPoints")}>
-                                    <option selected value={props.guess.Guess.secondTeamPoints}>{props.guess.Guess.secondTeamPoints}</option>
+                                    <option selected value={props.game.Guess.secondTeamPoints}>{props.game.Guess.secondTeamPoints}</option>
                                 </select>
                             </div>
                             <button disabled type="submit" className="bg-[#3c42b6] py-2 w-full cursor-not-allowed flex items-center justify-center h-[48px]"><Check size={32} weight="bold" /></button>

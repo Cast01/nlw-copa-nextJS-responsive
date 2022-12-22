@@ -8,7 +8,7 @@ import Router from "next/router";
 import { MyGuesses } from "../components/my-profile/MyGuesses";
 
 interface MyProfilePropsType {
-    roomsIIn: {
+    roomsIParticipate: {
         id: string,
         title: string,
         owner: {
@@ -94,7 +94,7 @@ export default function MyProfile(props: MyProfilePropsType) {
                         switcTab === "MYGUESS" && (
                             <div className="flex flex-1 flex-wrap gap-6 bg-[rgba(255,255,255,0.2)] p-2 overflow-auto rounded-bl-2xl rounded-br-2xl">
                                 {
-                                    props.roomsIIn.map(room => {
+                                    props.roomsIParticipate.map(room => {
                                         return (
                                             <MyGuesses key={room.id} room={room}/>
                                         );
@@ -130,7 +130,7 @@ export async function getServerSideProps(ctx: any) {
         }
     }
 
-    const roomsIIn = await api.get("/room", {
+    const roomsIParticipate = await api.get("/room", {
         headers: {
             'Authorization': `Bearer ${nlwcopaToken}`
         }
@@ -138,7 +138,7 @@ export async function getServerSideProps(ctx: any) {
 
     return {
         props: {
-            roomsIIn: roomsIIn.data,
+            roomsIParticipate: roomsIParticipate.data,
             nlwcopaToken,
         }
     }
