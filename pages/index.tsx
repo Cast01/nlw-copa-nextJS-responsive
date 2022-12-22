@@ -11,6 +11,7 @@ import { api } from '../lib/axios';
 import { useAuth } from '../hooks/useAuth';
 import { parseCookies } from 'nookies';
 import { Header } from '../components/Header';
+import Router from 'next/router';
 
 interface HomeProps {
 	roomQuantity: number,
@@ -33,14 +34,14 @@ export default function Home(props: HomeProps) {
 				title: roomTitle,
 			});
 
-			const { code } = response.data;
+			const { code, roomCreatedId } = response.data;
 
 			// Armazena o código no ctrl+c do usuário.
 			navigator.clipboard.writeText(code);
 
 			setRoomTitle("");
 
-			window.alert("Sala criada com sucesso! Código copiado!");
+			Router.push(`/room/${roomCreatedId}`);
 		} catch (error) {
 			console.log(error)
 		}

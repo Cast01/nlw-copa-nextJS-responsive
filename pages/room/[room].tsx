@@ -4,6 +4,7 @@ import { api } from "../../lib/axios";
 import { GameCard } from "../../components/room/game-card/GameCard";
 import { toast, Toaster } from "react-hot-toast";
 import { Header } from "../../components/Header";
+import { PaginatedItems } from "../../components/room/Pagination";
 
 
 interface RoomPropsType {
@@ -18,17 +19,29 @@ interface RoomPropsType {
         }
     }[],
     roomIIn: {
-        title: string,
-        code: string,
-        Participant: {
-            id: string,
-            user: {
-                avatarUrl: string,
-            }
-        }[],
-        _count: {
-            Participant: number,
-        },
+        currentRoom: {
+            title: string,
+            code: string,
+            Participant: {
+                id: string,
+                user: {
+                    avatarUrl: string,
+                }
+            }[],
+            _count: {
+                Participant: number,
+            },
+            Game: {
+                id: string,
+                firstTeamCountryCode: string,
+                secondTeamCountryCode: string,
+                date: Date,
+                Guess: {
+                    firstTeamPoints: number,
+                    secondTeamPoints: number,
+                }
+            }[]
+        }
     },
     roomId: string,
     nlwcopaToken: string,
@@ -59,29 +72,29 @@ export default function Room(props: RoomPropsType) {
 
             <section className="flex justify-between items-center pt-8">
                 <div>
-                    <h1 className="text-6xl font-black mb-7">Sala do{"(a): "}{props.roomIIn.title}</h1>
+                    <h1 className="text-6xl font-black mb-7">Sala do{"(a): "}{props.roomIIn.currentRoom.title}</h1>
                     <h2
                         className="text-2xl">Código{": "}
                         <span
                             className="text-blue-500 underline cursor-pointer"
-                            onClick={() => copyToClipBoard(props.roomIIn.code)}
+                            onClick={() => copyToClipBoard(props.roomIIn.currentRoom.code)}
                         >
-                            {props.roomIIn.code}
+                            {props.roomIIn.currentRoom.code}
                         </span>
                     </h2>
                 </div>
                 <ul className="flex">
                     {
-                        props.roomIIn.Participant.map(participant => {
+                        props.roomIIn.currentRoom.Participant.map(participant => {
                             return (
                                 <Image key={participant.id} src={participant.user.avatarUrl} alt={""} className={`rounded-[50%] w-[37px] h-[37px] relative -left-3 border-[#202024] border-solid border-[3px]`} width={37} height={37} />
                             );
                         })
                     }
                     {
-                        props.roomIIn._count.Participant > 4 && (
+                        props.roomIIn.currentRoom._count.Participant > 4 && (
                             <div className="rounded-[50%] relative -left-2 bg-[#2e2e30] border-[#202024] border-solid border-[3px] w-[37px] h-[37px] flex items-center justify-center text-sm">
-                                <span>+{JSON.stringify(props.roomIIn._count.Participant)}</span>
+                                <span>+{JSON.stringify(props.roomIIn.currentRoom._count.Participant)}</span>
                             </div>
                         )
                     }
@@ -92,7 +105,7 @@ export default function Room(props: RoomPropsType) {
 
                 {/* Sem paginação */}
                 {
-                    props.allGamesInThisRoom.map(guess => {
+                    props.roomIIn.currentRoom.Game.map(guess => {
                         return (
                             <GameCard key={guess.id} guess={guess} gameId={guess.id} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} />
                         );
@@ -100,7 +113,7 @@ export default function Room(props: RoomPropsType) {
                 }
 
                 {/* Com paginação */}
-                {/* <PaginatedItems itemsPerPage={3} allGamesInThisRoom={props.allGamesInThisRoom} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} /> */}
+                {/* <PaginatedItems itemsPerPage={3} allGamesInThisRoom={props.roomIIn.currentRoom.Game} roomId={props.roomId} nlwcopaToken={props.nlwcopaToken} /> */}
             </div>
         </div>
     );
@@ -135,7 +148,7 @@ export async function getServerSideProps(ctx: any) {
 
     const roomIIn = roomResponse.data;
 
-    console.log(allGamesInThisRoom);
+    console.log(roomIIn);
 
     return {
         props: {

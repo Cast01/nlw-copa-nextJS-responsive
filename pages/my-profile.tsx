@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import { Header } from "../components/Header";
 import { api } from "../lib/axios";
 
-import { Toaster } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 import Router from "next/router";
 import { MyGuesses } from "../components/my-profile/MyGuesses";
 
@@ -43,7 +43,7 @@ export default function MyProfile(props: MyProfilePropsType) {
             console.log(data.data.roomId)
             Router.push(`http://localhost:3000/room/${data.data.roomId}`);
         })
-        .catch(err => console.log(err.response.data.message));
+        .catch(err => toast.error(err.response.data.message));
     }
 
     return (
