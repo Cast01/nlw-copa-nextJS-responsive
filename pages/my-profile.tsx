@@ -5,9 +5,13 @@ import { api } from "../lib/axios";
 
 import { toast, Toaster } from 'react-hot-toast'
 import Router from "next/router";
-import { MyGuesses } from "../components/my-profile/MyGuesses";
+import { MyGuessesListButton } from "../components/my-profile/MyGuessesListButton";
+import { RoomRankingListButton } from "../components/my-profile/RoomRankingListButton";
+import { RoomsIParticipate } from "../components/my-profile/RoomsIParticipate";
+import { GroupRankingList } from "../components/my-profile/GroupRankingList";
+import { FormCodeSubmit } from "../components/my-profile/FormCodeSubmit";
 
-interface MyProfilePropsType {
+export interface MyProfilePropsType {
     roomsIParticipate: {
         id: string,
         title: string,
@@ -15,7 +19,7 @@ interface MyProfilePropsType {
             name: string,
         },
         _count: {
-            participant: number,
+            Participant: number,
         },
         Participant: {
             id: string,
@@ -27,13 +31,13 @@ interface MyProfilePropsType {
     nlwcopaToken: string,
 }
 
-type SwitchTab = "MYGUESS" | "GROUPRANKING";
+export type SwitchTab = "RoomIParticipateList" | "GroupRankingList";
 
 export default function MyProfile(props: MyProfilePropsType) {
     const [codeInput, setCodeInput] = useState("");
-    const [switcTab, setSwitchTab] = useState<SwitchTab>("MYGUESS");
+    const [switcTab, setSwitchTab] = useState<SwitchTab>("RoomIParticipateList");
 
-    const searchRoom = async (e: FormEvent) => {
+    const searchRoom = (e: FormEvent) => {
         e.preventDefault();
 
         api.post("/room/join", {
@@ -62,52 +66,20 @@ export default function MyProfile(props: MyProfilePropsType) {
                 
                 <h1 className="font-black text-6xl">Participações</h1>
 
-                {/* Code submit */}
-                <form onSubmit={searchRoom} className="h-10 self-end">
-                    <input
-                        type="text"
-                        placeholder="Código da sala"
-                        className="h-full w-64 rounded-tl-md rounded-bl-md bg-[#323238] pl-4 outline-none"
-                        onChange={e => setCodeInput(e.target.value)}
-                        value={codeInput}
-                    />
-                    <button type="submit" className="bg-[#F7DD43] h-full px-7 rounded-tr-md rounded-br-md text-black hover:bg-[#d6bf3b]">Buscar sala</button>
-                </form>
+                <FormCodeSubmit codeInput={codeInput} searchRoom={searchRoom} setCodeInput={setCodeInput}/>
 
-                {/* My guesses and group ranking */}
+                {/* My guesses and group ranking section */}
                 <div className="flex flex-col flex-1">
                     <div className="bg-[rgba(255,255,255,0.2)] w-full flex justify-center gap-11 py-4 px-9 rounded-tl-2xl rounded-tr-2xl">
-                        <button 
-                            className={`rounded-md py-5 px-10 font-black ${switcTab === "MYGUESS" ? "bg-blue-500" : "bg-[#202024]"}`}
-                            onClick={() => setSwitchTab("MYGUESS")}
-                        >
-                            MEUS PALPITES
-                        </button>
-                        <button 
-                            className={`rounded-md py-5 px-10 font-black ${switcTab === "GROUPRANKING" ? "bg-blue-500" : "bg-[#202024]"}`}
-                            onClick={() => setSwitchTab("GROUPRANKING")}
-                        >
-                            RANKING DO GRUPO
-                        </button>
+                        <MyGuessesListButton setSwitchTab={setSwitchTab} switcTab={switcTab}/>
+                        <RoomRankingListButton setSwitchTab={setSwitchTab} switcTab={switcTab}/>
                     </div>
                     {
-                        switcTab === "MYGUESS" && (
-                            <div className="flex flex-1 flex-wrap gap-6 bg-[rgba(255,255,255,0.2)] p-2 overflow-auto rounded-bl-2xl rounded-br-2xl">
-                                {
-                                    props.roomsIParticipate.map(room => {
-                                        return (
-                                            <MyGuesses key={room.id} room={room}/>
-                                        );
-                                    })  
-                                }
-                            </div>
-                        )
-                    }
-                    {
-                        switcTab === "GROUPRANKING" && (
-                            <div className="flex flex-1 flex-wrap gap-6 bg-[rgba(255,255,255,0.2)] p-2 overflow-auto rounded-bl-2xl rounded-br-2xl">
-                                <h1>RANKING DO GRUPO</h1>
-                            </div>
+                        switcTab === "RoomIParticipateList" ? (
+                            <RoomsIParticipate roomsIParticipate={props.roomsIParticipate}/>
+                        ) : (
+
+                            <GroupRankingList />
                         )
                     }
                 </div>

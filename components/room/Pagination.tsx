@@ -14,7 +14,6 @@ interface ItemsPropsType {
         }
     }[],
     roomId: string,
-    nlwcopaToken: string,
 }
 
 interface PaginatedItemsPropsType {
@@ -30,21 +29,20 @@ interface PaginatedItemsPropsType {
         }
     }[],
     roomId: string,
-    nlwcopaToken: string,
 }
 
-function Items({ currentItems, roomId, nlwcopaToken }: ItemsPropsType) {
+function Items({ currentItems, roomId }: ItemsPropsType) {
     return (
         <>
             {currentItems &&
-                currentItems.map(guess => (
-                    <GameCard key={guess.id} guess={guess} gameId={guess.id} roomId={roomId} nlwcopaToken={nlwcopaToken} />
+                currentItems.map(game => (
+                    <GameCard key={game.id} game={game} gameId={game.id} roomId={roomId} />
                 ))}
         </>
     );
 }
 
-export function PaginatedItems({ itemsPerPage, allGamesInThisRoom, roomId, nlwcopaToken }: PaginatedItemsPropsType) {
+export function PaginatedItems({ itemsPerPage, allGamesInThisRoom, roomId }: PaginatedItemsPropsType) {
     // Here we use item offsets; we could also use page offsets
     // following the API or data you're working with.
     const [itemOffset, setItemOffset] = useState(0);
@@ -69,7 +67,7 @@ export function PaginatedItems({ itemsPerPage, allGamesInThisRoom, roomId, nlwco
     return (
         <div id="Pagination" className='flex flex-col gap-8 items-center'>
             <div className='flex justify-center gap-8'>
-                <Items currentItems={currentItems} roomId={roomId} nlwcopaToken={nlwcopaToken} />
+                <Items currentItems={currentItems} roomId={roomId} />
             </div>
             <ReactPaginate
                 className='flex justify-center gap-6 w-fit'
