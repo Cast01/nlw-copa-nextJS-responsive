@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 
 import Image from 'next/image';
 import bg from '../assets/images/BG-effects.png';
@@ -7,22 +7,22 @@ import avatares from '../assets/images/avatares.png';
 import icon from '../assets/images/icon.svg';
 import googleLogoSVG from '../assets/images/GoogleLogo.svg';
 
-import { api } from '../lib/axios';
-import { useAuth } from '../hooks/useAuth';
-import { parseCookies } from 'nookies';
-import { Header } from '../components/Header';
 import Router from 'next/router';
+import { useAuth } from '../hooks/useAuth';
+import { api } from '../lib/axios';
+import { Header } from '../components/Header';
+import { parseCookies } from 'nookies';
 
-interface HomeProps {
-	roomQuantity: number,
-	userQuantity: number,
-	guessQuantity: number,
-	nlwcopaToken: string,
+export interface HomeContextType {
+    roomQuantity: number | undefined,
+    userQuantity: number | undefined,
+    guessQuantity: number | undefined,
+    nlwcopaToken: string | undefined,
 }
 
 
-export default function Home(props: HomeProps) {
-	const [roomTitle, setRoomTitle] = useState("");
+export default function Home({guessQuantity,nlwcopaToken,roomQuantity,userQuantity}: HomeContextType) {
+	const [roomTitleInput, setRoomTitleInput] = useState("");
 
 	const { login } = useAuth();
 
@@ -31,7 +31,7 @@ export default function Home(props: HomeProps) {
 			e.preventDefault();
 
 			const response = await api.post('/room', {
-				title: roomTitle,
+				title: roomTitleInput,
 			});
 
 			const { code, roomCreatedId } = response.data;
@@ -39,7 +39,7 @@ export default function Home(props: HomeProps) {
 			// Armazena o código no ctrl+c do usuário.
 			navigator.clipboard.writeText(code);
 
-			setRoomTitle("");
+			setRoomTitleInput("");
 
 			Router.push(`/room/${roomCreatedId}`);
 		} catch (error) {
@@ -70,7 +70,7 @@ export default function Home(props: HomeProps) {
 									id="number"
 									className="text-[#129E57] mr-2 ml-5"
 								>
-									+{props.userQuantity || 12}
+									+{userQuantity}
 								</li>
 								<li
 									id="worlds"
@@ -82,7 +82,7 @@ export default function Home(props: HomeProps) {
 						</div>
 						<form onSubmit={createRoom}>
 							{
-								props.nlwcopaToken ? (
+								nlwcopaToken ? (
 									<></>
 								) : (
 									<span className='text-[#DB4437] mb-6'>Faça login com a sua conta do google para liberar seu acesso.</span>
@@ -93,11 +93,11 @@ export default function Home(props: HomeProps) {
 									type="text"
 									placeholder='Qual o nome do Bolão?'
 									className="bg-[#323238] h-[50px] w-[300px] mr-3 rounded pl-4"
-									value={roomTitle}
-									onChange={e => setRoomTitle(e.target.value)}
+									value={roomTitleInput}
+									onChange={e => setRoomTitleInput(e.target.value)}
 								/>
 								{
-									props.nlwcopaToken ? (
+									nlwcopaToken ? (
 										// Default button
 										<button
 											type={"submit"}
@@ -133,7 +133,7 @@ export default function Home(props: HomeProps) {
 										className="mr-4"
 									/>
 									<div>
-										<div>+ {props.roomQuantity || 1}</div>
+										<div>+ {roomQuantity}</div>
 										<div>Salas criadas</div>
 									</div>
 								</div>
@@ -147,7 +147,7 @@ export default function Home(props: HomeProps) {
 										className="mr-4"
 									/>
 									<div>
-										<div>+ {props.guessQuantity || 1}</div>
+										<div>+ {guessQuantity}</div>
 										<div>Palpites enviados</div>
 									</div>
 								</div>
