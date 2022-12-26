@@ -14,17 +14,20 @@ import { Header } from '../components/Header';
 import { parseCookies } from 'nookies';
 
 export interface HomeContextType {
-    roomQuantity: number | undefined,
-    userQuantity: number | undefined,
-    guessQuantity: number | undefined,
-    nlwcopaToken: string | undefined,
+	roomQuantity: number | undefined,
+	userQuantity: number | undefined,
+	guessQuantity: number | undefined,
+	nlwcopaToken: string | undefined,
 }
 
-
-export default function Home({guessQuantity,nlwcopaToken,roomQuantity,userQuantity}: HomeContextType) {
+export default function Home({ guessQuantity, nlwcopaToken, roomQuantity, userQuantity }: HomeContextType) {
 	const [roomTitleInput, setRoomTitleInput] = useState("");
 
 	const { login } = useAuth();
+
+	const withOutAPI = () => {
+		Router.push("/with-out-api")
+	}
 
 	const createRoom = async (e: FormEvent) => {
 		try {
@@ -70,7 +73,7 @@ export default function Home({guessQuantity,nlwcopaToken,roomQuantity,userQuanti
 									id="number"
 									className="text-[#129E57] mr-2 ml-5"
 								>
-									+{userQuantity}
+									+{userQuantity || 236}
 								</li>
 								<li
 									id="worlds"
@@ -109,7 +112,7 @@ export default function Home({guessQuantity,nlwcopaToken,roomQuantity,userQuanti
 										// Button Google Login
 										<div
 											className="bg-[#DB4437] text-black font-bold rounded px-11 flex items-center justify-center cursor-pointer"
-											onClick={() => login()}
+											onClick={() => withOutAPI()}
 										>
 											<Image src={googleLogoSVG} alt={""} width={30} height={30} />
 										</div>
@@ -133,7 +136,7 @@ export default function Home({guessQuantity,nlwcopaToken,roomQuantity,userQuanti
 										className="mr-4"
 									/>
 									<div>
-										<div>+ {roomQuantity}</div>
+										<div>+ {roomQuantity || 37}</div>
 										<div>Salas criadas</div>
 									</div>
 								</div>
@@ -147,7 +150,7 @@ export default function Home({guessQuantity,nlwcopaToken,roomQuantity,userQuanti
 										className="mr-4"
 									/>
 									<div>
-										<div>+ {guessQuantity}</div>
+										<div>+ {guessQuantity || 847}</div>
 										<div>Palpites enviados</div>
 									</div>
 								</div>
@@ -173,25 +176,25 @@ export default function Home({guessQuantity,nlwcopaToken,roomQuantity,userQuanti
 // indexados e se alguem pesquisar por sapato da nike o seu site não ira aparecer, pois os nomes das coisas
 // vem do Banco de Dados e se chamar a rota no componente em si os robos não esperam os dados chegar 
 // para liberar o site para os buscadores.
-export async function getServerSideProps(ctx: any) {
-	const { nlwcopaToken } = parseCookies(ctx);
+// export async function getServerSideProps(ctx: any) {
+// 	const { nlwcopaToken } = parseCookies(ctx);
 
-	const [
-		roomQuantity,
-		userQuantity,
-		guessQuantity,
-	] = await Promise.all([
-		api.get("/room/quantity"),
-		api.get("/user/quantity"),
-		api.get("/guess/quantity"),
-	]);
+// 	const [
+// 		roomQuantity,
+// 		userQuantity,
+// 		guessQuantity,
+// 	] = await Promise.all([
+// 		api.get("/room/quantity"),
+// 		api.get("/user/quantity"),
+// 		api.get("/guess/quantity"),
+// 	]);
 
-	return {
-		props: {
-			roomQuantity: roomQuantity.data.roomQuantity,
-			userQuantity: userQuantity.data.userQuantity,
-			guessQuantity: guessQuantity.data.guessQuantity,
-			nlwcopaToken: nlwcopaToken ?? null,
-		}
-	}
-}
+// 	return {
+// 		props: {
+// 			roomQuantity: roomQuantity.data.roomQuantity,
+// 			userQuantity: userQuantity.data.userQuantity,
+// 			guessQuantity: guessQuantity.data.guessQuantity,
+// 			nlwcopaToken: nlwcopaToken ?? null,
+// 		}
+// 	}
+// }

@@ -9,7 +9,9 @@ export function Header(props: any) {
 
     return (
         <header className='w-full h-16 bg-slate-500 flex items-center justify-between px-4'>
-            <Image src={nlwCopaLogo} alt={""}/>
+            <Link href={"/"}>
+                <Image src={nlwCopaLogo} alt={""}/>
+            </Link>
             <ul className='flex gap-6 items-center'>
                 <Link href={"/"}>CRIAR SALA</Link>
                 <Link href={"/my-profile"}>
