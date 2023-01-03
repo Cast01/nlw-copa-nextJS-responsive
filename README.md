@@ -1,6 +1,12 @@
-TESTE PULL REQUESTs
-2222222
-33333333
+Front-End NLWCopa
+
+HOW USE:
+
+  1 - Run 'npm i'
+
+  2 - Use npm outdated para descobrir dependências que estão desatualizadas. 2 - Use npm update para realizar atualizações de dependências seguras. 3 - Use npm install <packagename>@latest para atualizar para a versão principal mais recente de um pacote.
+
+  3 - Run 'npm run dev'
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
